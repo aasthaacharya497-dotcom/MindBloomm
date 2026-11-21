@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mind Bloom — Your Wellness Space</title>
+<style>
+:root{--ink:#263448;--muted:#68778a;--lav:#e9e4ff;--purple:#7968bd;--mint:#dff3e9;--peach:#ffeadf;--paper:#fbfaf7;--white:#fff;--line:#ececf1;--shadow:0 12px 35px #303b5010}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0}
+.app{max-width:1120px;margin:auto;padding:22px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 0 22px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-.5px;text-transform:lowercase}
+.logo{width:42px;height:42px;border-radius:15px;background:linear-gradient(145deg,#e6ddff,#d9f0e4);display:grid;place-items:center;font-size:22px;color:#7869b6}
+.brand-dot{color:#8876c2}
+.tag{font-size:13px;color:var(--muted)}
+.hero{background:linear-gradient(115deg,#f0edff 0%,#eaf5ee 58%,#f8f1e8 100%);border:1px solid #eeebf4;border-radius:30px;padding:clamp(25px,5vw,58px);display:flex;align-items:center;justify-content:space-between;gap:28px;box-shadow:var(--shadow);overflow:hidden;position:relative;min-height:390px}
+.hero:after{content:"";position:absolute;width:270px;height:270px;border:1px solid #ffffff99;border-radius:50%;right:30%;top:-170px}
+.hero-new{background:radial-gradient(circle at 82% 22%,#fff9 0 8%,transparent 8.5%),linear-gradient(120deg,#f0ebff 0%,#eaf5ed 58%,#fbf0e8 100%)}
+.hero-new:before{content:"";position:absolute;inset:14px;border:1px solid #ffffff99;border-radius:22px;pointer-events:none}
+.hero h1{font-size:clamp(39px,6vw,65px);line-height:1.02;letter-spacing:-2.6px;margin:22px 0 16px;font-weight:800}
+.hero h1 em{font-family:Georgia,serif;font-weight:500;color:#8573bf}
+.hero p{color:#59677a;max-width:440px;line-height:1.75;font-size:15px}
+.hero-copy{position:relative;z-index:2;max-width:560px}
+.hero-visual{position:relative;flex:0 0 38%;height:300px;display:grid;place-items:center}
+.sun-orb{position:absolute;width:240px;height:240px;border-radius:50%;background:linear-gradient(145deg,#d8d0ff,#d9efe3);box-shadow:inset 10px 10px 30px #ffffff80,0 20px 50px #8b80b522}
+.plant-art{font-size:145px;z-index:1;filter:drop-shadow(0 15px 10px #485d4020);transform:rotate(-8deg)}
+.welcome-pill{display:inline-flex;gap:9px;align-items:center;border:1px solid #d9d2ef;background:#ffffff88;border-radius:30px;padding:9px 14px;color:#6e5eaa;font-size:10px;letter-spacing:1.3px;font-weight:800}
+.welcome-pill span{font-size:15px}
+.hero-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:24px}
+.hero-button{padding:15px 19px;border-radius:14px;box-shadow:0 8px 18px #7968bd30}
+.hero-button span{margin-left:12px}
+.text-button{background:transparent;color:#62558f;font-weight:750;padding:10px 0}
+.hero-footnote{margin-top:28px;font-size:12px;color:#758092;display:flex;align-items:center;gap:10px}
+.tiny-avatars{color:#8778bd;letter-spacing:-3px;font-size:17px}
+.floating-note{position:absolute;z-index:2;background:#ffffffdf;border:1px solid #ffffff;border-radius:13px;padding:11px 14px;font-size:12px;color:#665b91;box-shadow:0 8px 25px #34405012}
+.note-one{top:28px;right:0}
+.note-two{bottom:38px;left:-8px}
+.visual-caption{position:absolute;bottom:-5px;right:5px;display:flex;flex-direction:column;gap:4px;color:#6c7784;font-size:10px}
+.visual-caption b{font-size:13px;color:#364254}
+.home-intro{display:flex;align-items:center;justify-content:space-between;margin:35px 0 15px}
+.home-intro h2{margin:7px 0 5px;font-size:24px;letter-spacing:-.5px}
+.home-intro p{margin:0;color:var(--muted);font-size:13px}
+.intro-spark{font-size:37px;color:#a99bd7;margin-right:15px}
+.eyebrow{text-transform:uppercase;letter-spacing:1.6px;font-size:11px;font-weight:800;color:var(--purple)}
+.section-title{margin:30px 0 14px;display:flex;align-items:end;justify-content:space-between;gap:12px}
+.section-title h2{margin:0;font-size:21px}
+.section-title p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.tile,.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+.tile{transition:.2s;cursor:pointer;text-align:left;color:var(--ink)}
+.tile:hover{transform:translateY(-3px);box-shadow:0 16px 35px #303b5018}
+.tile .emoji{font-size:28px}
+.tile h3{margin:13px 0 5px;font-size:17px}
+.tile p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.moods{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.mood{background:#f7f6fb;border:1px solid var(--line);border-radius:15px;padding:12px 15px;min-width:90px;color:var(--ink)}
+.mood span{display:block;font-size:25px;margin-bottom:5px}
+.mood small{font-size:12px}
+.mood.selected{outline:2px solid var(--purple);background:var(--lav)}
+.primary{background:var(--purple);color:white;border-radius:12px;padding:12px 17px;font-weight:700}
+.secondary{background:#f0eef9;color:#51448b;border-radius:12px;padding:11px 15px;font-weight:700}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.note{font-size:12px;color:var(--muted);line-height:1.5}
+.page{display:none}
+.page.active{display:block}
+.back{background:transparent;color:var(--purple);font-weight:700;padding:8px 0;margin:10px 0}
+.page h2{font-size:27px;margin:8px 0}
+.field{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;background:#fff;margin:8px 0 14px;color:var(--ink)}
+textarea.field{min-height:130px;resize:vertical}
+.breath-wrap{text-align:center;padding:25px}
+.breath-circle{width:190px;height:190px;border-radius:50%;margin:20px auto;background:linear-gradient(145deg,#e7e1ff,#dff3e9);display:grid;place-items:center;font-size:18px;font-weight:800;color:#51448b;box-shadow:0 0 0 15px #e9e4ff66;transition:transform 4s ease-in-out}
+.breath-circle.inhale{transform:scale(1.18)}
+.affirmation{font-size:24px;line-height:1.45;text-align:center;background:#fff5ef;border-radius:18px;padding:28px;margin:20px 0}
+.entry{padding:13px 0;border-bottom:1px solid var(--line)}
+.entry:last-child{border:0}
+.entry small{color:var(--muted)}
+.activity{background:#f4f1ff;border-radius:16px;padding:16px;margin:12px 0;line-height:1.6}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:35px 0 15px}
+.hidden{display:none!important}
+
+/* Mind Bloom app shell */
+:root{--purple:#8272b9;--paper:#f7f6f2;--ink:#30394b;--muted:#7b8490}
+body{background:linear-gradient(135deg,#f6f4fb,#f5f8f3 58%,#fbf6f0);min-height:100vh;padding-bottom:94px}
+.app{max-width:900px;padding:18px 22px 35px}
+.topbar{position:sticky;top:0;z-index:20;background:#f8f7f2ef;backdrop-filter:blur(16px);margin:0 -22px;padding:12px 22px 15px;border-bottom:1px solid #e9e6ef}
+.brand{font-size:21px}
+.logo{border-radius:14px}
+.nav-links{display:none}
+.hero{min-height:310px;border-radius:28px;padding:clamp(24px,4vw,42px)}
+.hero h1{font-size:clamp(37px,5.5vw,57px)}
+.home-intro{margin-top:30px}
+.grid{gap:13px}
+.tile,.panel{border-radius:22px;box-shadow:0 10px 28px #3b40500b}
+.tile{min-height:150px;padding:19px;background:#ffffffd9;border-color:#eeebf1}
+.tile .emoji{width:45px;height:45px;display:grid;place-items:center;border-radius:15px;background:#f1edfc;font-size:23px}
+.page:not(#home){position:relative;padding:15px 2px 20px}
+.page:not(#home)>.back{display:none}
+.page:not(#home)>.eyebrow{display:inline-flex;align-items:center;gap:8px;background:#f0edff;border:1px solid #e5dff8;border-radius:30px;padding:9px 14px;color:#7766b4;letter-spacing:1.2px;margin-top:12px}
+.page:not(#home)>h2{font-family:Georgia,serif;font-weight:500;font-size:clamp(31px,4vw,39px);letter-spacing:-.8px;line-height:1.15;color:#354253;margin:15px 0 10px}
+.page:not(#home)>.tag{font-size:14px;line-height:1.7;max-width:650px}
+.page:not(#home)>.panel{border-radius:24px;background:linear-gradient(145deg,#fff 0%,#fbfaff 100%);box-shadow:0 16px 40px #303b500c;border:1px solid #eeebf4}
+.page:not(#home)>.activity{border:1px solid #e9e3f6;background:linear-gradient(120deg,#f4f1ff,#f0f8f3)}
+.page:not(#home)>.affirmation{background:linear-gradient(120deg,#f3efff,#fff3ed);color:#66558f;font-family:Georgia,serif;font-size:27px;border-radius:24px}
+.page:not(#home)>.back{margin:8px 0 20px;padding:10px 14px;border-radius:12px;background:#f5f2fc}
+.app-nav{position:fixed;z-index:50;left:50%;bottom:14px;transform:translateX(-50%);width:min(560px,calc(100% - 26px));display:flex;justify-content:space-around;align-items:center;padding:9px 8px calc(9px + env(safe-area-inset-bottom));border:1px solid #e9e5ef;border-radius:23px;background:#ffffffef;box-shadow:0 12px 40px #30344820;backdrop-filter:blur(18px)}
+.app-tab{display:flex;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:5px 2px;background:transparent;color:#9295a0;border-radius:15px;min-width:0}
+.app-tab span{font-size:22px;line-height:1.2}
+.app-tab small{font-size:10px;font-weight:700;letter-spacing:.2px}
+.app-tab.active{background:#f0edfa;color:#7665ae}
+.app-tab.active span{transform:translateY(-1px)}
+.footer{padding-bottom:18px}
+
+/* Opening cover screen */
+#cover-screen{min-height:100svh;display:grid;place-items:center;padding:26px 18px;background:radial-gradient(circle at 18% 18%,#fff8 0 7%,transparent 7.5%),radial-gradient(circle at 85% 82%,#ffffffa8 0 10%,transparent 10.5%),linear-gradient(145deg,#e9e2fb 0%,#e4f0e7 52%,#f8e9df 100%);overflow:hidden;position:relative}
+#cover-screen:before,#cover-screen:after{content:"";position:absolute;border:1px solid #ffffffa8;border-radius:50%;width:440px;height:440px;pointer-events:none}
+#cover-screen:before{left:-230px;top:-220px}
+#cover-screen:after{right:-250px;bottom:-260px;width:560px;height:560px}
+.cover-card{width:min(760px,100%);min-height:min(680px,calc(100svh - 52px));position:relative;z-index:1;border:1px solid #ffffffb8;border-radius:34px;background:#ffffff80;backdrop-filter:blur(15px);box-shadow:0 25px 80px #51496b1c;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(28px,6vw,65px) 24px;overflow:hidden}
+.cover-kicker{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#8273a8;font-weight:800}
+.cover-flower{width:164px;height:164px;border-radius:50%;display:grid;place-items:center;margin:27px 0 24px;background:radial-gradient(circle,#fff9 0 27%,transparent 28%),linear-gradient(145deg,#d9d0f6,#d7ecdf);box-shadow:inset 0 0 0 1px #ffffffb8,0 18px 45px #786ca522;position:relative}
+.cover-flower:before,.cover-flower:after{content:"✿";position:absolute;color:#ffffffb8;font-size:45px}
+.cover-flower:before{left:-37px;top:6px;transform:rotate(-18deg)}
+.cover-flower:after{right:-35px;bottom:2px;font-size:34px;transform:rotate(18deg)}
+.cover-flower span{font-size:84px;filter:drop-shadow(0 9px 8px #55644a26)}
+.cover-title{font-family:Georgia,'Times New Roman',serif;font-weight:500;font-size:clamp(54px,10vw,86px);line-height:.98;letter-spacing:-3px;color:#3d4851;margin:0}
+.cover-title em{font-weight:400;color:#8574b8}
+.cover-subtitle{font-family:Georgia,serif;font-size:clamp(17px,3vw,21px);font-style:italic;color:#6f7c79;margin:17px 0 12px}
+.cover-description{max-width:420px;color:#707b80;font-size:14px;line-height:1.8;margin:0 auto 27px}
+.cover-enter{border-radius:999px;padding:15px 27px;background:#7969ad;color:#fff;font-weight:750;letter-spacing:.2px;box-shadow:0 10px 24px #7969ad40;transition:transform .2s,box-shadow .2s}
+.cover-enter:hover{transform:translateY(-2px);box-shadow:0 14px 28px #7969ad55}
+.cover-enter span{margin-left:12px}
+.cover-bottom{margin-top:27px;color:#92939a;font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.cover-spark{position:absolute;color:#9d8fc8;font-size:24px}
+.cover-spark.one{top:13%;right:15%}
+.cover-spark.two{bottom:15%;left:14%;font-size:18px}
+.cover-spark.three{top:25%;left:13%;font-size:15px}
+.app{display:none}
+.app.entered{display:block}
+
+@media(max-width:850px){
+ .nav-links{gap:0}
+ .nav-links button{padding:9px 8px;font-size:12px}
+ .hero-visual{flex-basis:34%}
+ .plant-art{font-size:115px}
+ .sun-orb{width:200px;height:200px}
+}
+@media(max-width:750px){
+ .app{padding:15px}
+ .topbar{align-items:flex-start;gap:12px}
+ .hero{padding:25px;min-height:340px}
+ .hero-visual{flex-basis:34%;height:240px}
+ .plant-art{font-size:95px}
+ .sun-orb{width:165px;height:165px}
+ .note-one{right:-8px}
+ .note-two{left:-18px}
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .tag{display:none}
+}
+@media(max-width:600px){
+ body{padding-bottom:105px}
+ .app{padding:12px 15px 25px}
+ .topbar{margin:0 -15px;padding:10px 15px 13px}
+ .tag{display:block}
+ .hero{padding:23px;min-height:0}
+ .hero-visual{display:none}
+ .hero h1{font-size:43px;letter-spacing:-1.8px}
+ .hero p{font-size:14px}
+ .hero-actions{gap:12px}
+ .hero-button{padding:13px 15px}
+ .home-intro{margin:27px 0 13px}
+ .home-intro h2{font-size:21px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .tile{min-height:145px;padding:14px;border-radius:18px}
+ .tile h3{font-size:15px;margin-top:10px}
+ .tile p{font-size:12px}
+ .app-nav{bottom:9px;width:calc(100% - 18px);border-radius:20px}
+ .app-tab span{font-size:21px}
+ .app-tab small{font-size:9px}
+ .page:not(#home)>.panel{padding:17px}
+ #cover-screen{padding:13px}
+ .cover-card{min-height:calc(100svh - 26px);border-radius:27px;padding:30px 22px}
+ .cover-flower{width:140px;height:140px}
+ .cover-flower span{font-size:72px}
+ .cover-description{font-size:13px}
+ .cover-spark.one{right:8%}
+ .cover-spark.two{left:8%}
+}
+@media(max-width:520px){
+ .page:not(#home)>.eyebrow{font-size:10px}
+ .page:not(#home)>.affirmation{font-size:23px}
+ .hero-visual{display:none}
+ .hero{min-height:0}
+ .hero h1{font-size:45px}
+ .home-intro h2{font-size:21px}
+ .topbar{display:block}
+ .nav-links{justify-content:flex-start;margin-top:12px}
+}
+@media(max-width:450px){
+ .grid{grid-template-columns:1fr}
+ .mood{flex:1;min-width:75px;padding:10px 7px}
+}
+@media(max-width:360px){
+ .grid{grid-template-columns:1fr}
+ .app-tab small{font-size:8px}
+}
+@media(min-width:900px){
+ .app-nav{bottom:20px}
+ .app{padding-top:22px}
+}
+</style>
+</head>
+<body>
+
+<section id="cover-screen" aria-label="Mind Bloom welcome screen">
+ <div class="cover-card">
+  <span class="cover-spark one">✧</span>
+  <span class="cover-spark two">✦</span>
+  <span class="cover-spark three">✳</span>
+  <div class="cover-kicker">A LITTLE SPACE TO GROW</div>
+  <div class="cover-flower"><span>🌷</span></div>
+  <h1 class="cover-title">mind <em>bloom</em></h1>
+  <p class="cover-subtitle">Grow through what you feel.</p>
+  <p class="cover-description">A gentle space to pause, understand your feelings and take care of your mind — one little step at a time.</p>
+  <button class="cover-enter" onclick="enterApp()">Enter your space <span>↗</span></button>
+  <div class="cover-bottom">Breathe · Reflect · Bloom</div>
+ </div>
+</section>
+
+<div class="app">
+<header class="topbar">
+ <div class="brand">
+  <div class="logo">✿</div>
+  <div>mind bloom<span class="brand-dot">.</span><div class="tag">YOUR PERSONAL WELLNESS SPACE</div></div>
+ </div>
+</header>
+
+<main id="home" class="page active">
+ <section class="hero hero-new">
+  <div class="hero-copy">
+   <div class="welcome-pill"><span>✦</span> A LITTLE SPACE JUST FOR YOU</div>
+   <h1>Your mind<br>deserves a <em>little</em><br>kindness.</h1>
+   <p>Some days feel bright. Some days feel heavy. Wherever you are today, take a moment for yourself. You belong here.</p>
+   <div class="hero-actions">
+    <button class="primary hero-button" onclick="showPage('mood')">How am I feeling? <span>↗</span></button>
+    <button class="text-button" onclick="showPage('activities')">Explore the toolkit <span>→</span></button>
+   </div>
+   <div class="hero-footnote"><span class="tiny-avatars">☀　♡　✿</span> Small steps count. Every single one.</div>
+  </div>
+  <div class="hero-visual">
+   <div class="sun-orb"></div><div class="plant-art">🌿</div>
+   <div class="floating-note note-one">✧ &nbsp; breathe</div>
+   <div class="floating-note note-two">you are growing ♡</div>
+   <div class="visual-caption"><span>01 / 06</span><b>A moment for you</b></div>
+  </div>
+ </section>
+
+ <div class="home-intro">
+  <div><div class="eyebrow">START WHERE YOU ARE</div><h2>What would feel good right now?</h2><p>There's no perfect way to feel. Just choose what you need.</p></div>
+  <div class="intro-spark">✳</div>
+ </div>
+
+ <section class="section-title"><div><h2>How are you feeling today?</h2><p>There is no right or wrong answer.</p></div></section>
+ <div class="moods" id="homeMoods">
+  <button class="mood" onclick="chooseMood('Happy','😊')"><span>😊</span><small>Happy</small></button>
+  <button class="mood" onclick="chooseMood('Okay','🙂')"><span>🙂</span><small>Okay</small></button>
+  <button class="mood" onclick="chooseMood('Sad','😔')"><span>😔</span><small>Sad</small></button>
+  <button class="mood" onclick="chooseMood('Stressed','😣')"><span>😣</span><small>Stressed</small></button>
+  <button class="mood" onclick="chooseMood('Angry','😠')"><span>😠</span><small>Angry</small></button>
+ </div>
+ <p class="note" id="moodFeedback" aria-live="polite">Choosing a mood is just a way to notice how you feel.</p>
+
+ <section class="section-title"><div><h2>Your wellness toolkit</h2><p>Choose something that feels helpful right now.</p></div></section>
+ <div class="grid">
+  <button class="tile" onclick="showPage('breathing')"><div class="emoji">🌬️</div><h3>Breathe & Relax</h3><p>Try a gentle guided breathing exercise.</p></button>
+  <button class="tile" onclick="showPage('journal')"><div class="emoji">📔</div><h3>My Journal</h3><p>Write down thoughts and save them on this device.</p></button>
+  <button class="tile" onclick="showPage('affirmations')"><div class="emoji">💜</div><h3>Kind Words</h3><p>Read a little reminder for yourself.</p></button>
+  <button class="tile" onclick="showPage('activities')"><div class="emoji">🧩</div><h3>Calm Activities</h3><p>Explore small ways to reset and recharge.</p></button>
+  <button class="tile" onclick="showPage('support')"><div class="emoji">🤝</div><h3>Get Support</h3><p>Remember who you can reach out to.</p></button>
+  <button class="tile" onclick="showPage('mood')"><div class="emoji">🌈</div><h3>Mood Check-in</h3><p>Notice and reflect on your feelings.</p></button>
+ </div>
+</main>
+
+<section id="mood" class="page">
+ <div class="eyebrow">Mood check-in</div>
+ <h2>What is your mood today?</h2>
+ <p class="tag">Your feelings are valid. Pick the closest match, or simply skip.</p>
+ <div class="moods" id="moodChoices">
+  <button class="mood" onclick="chooseMood('Happy','😊')"><span>😊</span><small>Happy</small></button>
+  <button class="mood" onclick="chooseMood('Okay','🙂')"><span>🙂</span><small>Okay</small></button>
+  <button class="mood" onclick="chooseMood('Sad','😔')"><span>😔</span><small>Sad</small></button>
+  <button class="mood" onclick="chooseMood('Stressed','😣')"><span>😣</span><small>Stressed</small></button>
+  <button class="mood" onclick="chooseMood('Angry','😠')"><span>😠</span><small>Angry</small></button>
+ </div>
+ <p id="moodMessage" aria-live="polite"></p>
+ <div class="panel" style="margin-top:20px"><h3>Your recent check-ins</h3><div id="moodHistory" class="note">No check-ins yet. That's okay!</div></div>
+</section>
+
+<section id="breathing" class="page">
+ <div class="eyebrow">Breathe & relax</div>
+ <h2>Let's slow down for a moment.</h2>
+ <p class="tag">Follow the circle: breathe in as it grows and out as it shrinks.</p>
+ <div class="panel breath-wrap">
+  <div id="breathCircle" class="breath-circle">Ready?</div>
+  <p id="breathText">Find a comfortable position. Continue only if it feels comfortable.</p>
+  <div class="actions" style="justify-content:center">
+   <button class="primary" id="breathButton" onclick="toggleBreathing()">Start breathing</button>
+   <button class="secondary" onclick="stopBreathing()">Stop</button>
+  </div>
+  <p class="note">Try a gentle rhythm: breathe in for 4 counts and out for 4 counts. Never force your breath. Stop if you feel dizzy or uncomfortable.</p>
+ </div>
+</section>
+
+<section id="journal" class="page">
+ <div class="eyebrow">My journal</div>
+ <h2>A page just for your thoughts.</h2>
+ <p class="tag">Write as much or as little as you like.</p>
+ <label for="journalText">What's on your mind?</label>
+ <textarea id="journalText" class="field" placeholder="Today I am feeling..."></textarea>
+ <button class="primary" onclick="saveJournal()">Save entry</button>
+ <p class="note">Entries are saved only in this browser on this device. This is not a private or secure diary, so avoid writing passwords or very sensitive details.</p>
+ <div class="panel" style="margin-top:20px"><h3>My saved entries</h3><div id="journalEntries" class="note">Your saved entries will appear here.</div></div>
+</section>
+
+<section id="affirmations" class="page">
+ <div class="eyebrow">Kind words</div>
+ <h2>A gentle reminder for today.</h2>
+ <div class="affirmation" id="affirmationText">I can take things one step at a time. 🌷</div>
+ <div style="text-align:center"><button class="primary" onclick="newAffirmation()">Show me another</button></div>
+</section>
+
+<section id="activities" class="page">
+ <div class="eyebrow">Calm activities</div>
+ <h2>Small pauses can help.</h2>
+ <div class="activity"><b>🌿 5–4–3–2–1 grounding</b><p>Notice 5 things you can see, 4 things you can feel, 3 things you can hear, 2 things you can smell and 1 thing you can taste. Take your time.</p></div>
+ <div class="activity"><b>🎨 Creative break</b><p>Doodle a pattern, colour a picture or make something with paper. It doesn't need to be perfect.</p></div>
+ <div class="activity"><b>🚶 Gentle movement</b><p>If it is safe and comfortable, stretch gently or take a short walk with a trusted person.</p></div>
+ <div class="activity"><b>💧 Tiny reset</b><p>Drink some water, relax your shoulders and take a moment away from your screen.</p></div>
+</section>
+
+<section id="support" class="page">
+ <div class="eyebrow">You don't have to handle everything alone</div>
+ <h2>Reaching out is a strong step.</h2>
+ <div class="panel">
+  <h3>People you can talk to</h3>
+  <ul>
+   <li>A parent or trusted family member</li>
+   <li>A teacher you feel comfortable with</li>
+   <li>Your school counsellor</li>
+   <li>A doctor or qualified mental health professional</li>
+  </ul>
+  <p>If you feel unsafe or someone may be in immediate danger, tell a trusted adult right away and contact local emergency services.</p>
+ </div>
+ <p class="note">Mind Bloom is an educational wellbeing project. It does not diagnose, treat or replace help from a qualified professional. You deserve support, whatever you are feeling.</p>
+</section>
+
+<nav class="app-nav" aria-label="Main app navigation">
+ <button class="app-tab active" data-page="home" onclick="showPage('home')"><span>⌂</span><small>Home</small></button>
+ <button class="app-tab" data-page="mood" onclick="showPage('mood')"><span>☻</span><small>Mood</small></button>
+ <button class="app-tab" data-page="breathing" onclick="showPage('breathing')"><span>◌</span><small>Breathe</small></button>
+ <button class="app-tab" data-page="journal" onclick="showPage('journal')"><span>▤</span><small>Journal</small></button>
+ <button class="app-tab" data-page="activities" onclick="showPage('activities')"><span>✿</span><small>Explore</small></button>
+</nav>
+
+<footer class="footer">Made with care · Mind Bloom Mental Wellness Kit<br>Small steps. Kind thoughts. Better days.</footer>
+</div>
+
+<script>
+(function () {
+ const readList = (key) => {
+  try {
+   const value = JSON.parse(window.localStorage.getItem(key) || '[]');
+   return Array.isArray(value) ? value : [];
+  } catch (error) { return []; }
+ };
+
+ const writeList = (key, value) => {
+  try {
+   window.localStorage.setItem(key, JSON.stringify(value));
+   return true;
+  } catch (error) { return false; }
+ };
+
+ window.enterApp = function () {
+  const cover = document.getElementById('cover-screen');
+  const app = document.querySelector('.app');
+  if (cover) cover.hidden = true;
+  if (app) app.classList.add('entered');
+  window.scrollTo(0, 0);
+ };
+
+ window.showPage = function (id) {
+  const target = document.getElementById(id);
+  if (!target || !target.classList.contains('page')) return;
+
+  document.querySelectorAll('.page').forEach((page) => {
+   page.classList.toggle('active', page === target);
+  });
+
+  document.querySelectorAll('.app-tab').forEach((tab) => {
+   tab.classList.toggle('active', tab.getAttribute('data-page') === id);
+  });
+
+  if (id === 'journal') window.renderJournals();
+  if (id === 'mood') window.renderMoods();
+  window.scrollTo(0, 0);
+ };
+
+ const moodReplies = {
+  Happy: "It's lovely that you're feeling happy. Enjoy this moment!",
+  Okay: "It's okay to feel just okay. You don't need to feel amazing all the time.",
+  Sad: "I'm sorry things feel difficult. Consider talking to someone you trust.",
+  Stressed: "Pause for a moment. You can take one small step at a time.",
+  Angry: "Strong feelings happen. Give yourself a little space if you can."
+ };
+
+ window.chooseMood = function (name, emoji) {
+  const list = readList('mindmateMoods');
+  list.unshift({ name, emoji, date: new Date().toLocaleString() });
+  writeList('mindmateMoods', list.slice(0, 10));
+
+  const msg = document.getElementById('moodMessage');
+  if (msg) {
+   msg.textContent = emoji + ' ' + (moodReplies[name] || 'Thank you for checking in.') + ' Your check-in has been saved on this device.';
+  }
+
+  const feedback = document.getElementById('moodFeedback');
+  if (feedback) feedback.textContent = emoji + ' Your mood has been recorded. Be kind to yourself today.';
+
+  window.renderMoods();
+ };
+
+ window.renderMoods = function () {
+  const el = document.getElementById('moodHistory');
+  if (!el) return;
+  const list = readList('mindmateMoods');
+
+  el.innerHTML = list.length
+   ? list.slice(0, 5).map((item) =>
+      '<div class="entry">' +
+      escapeHTML(String(item.emoji || '')) + ' <b>' +
+      escapeHTML(String(item.name || '')) +
+      '</b><br><small>' +
+      escapeHTML(String(item.date || '')) +
+      '</small></div>'
+     ).join('')
+   : "No check-ins yet. That's okay!";
+ };
+
+ window.saveJournal = function () {
+  const field = document.getElementById('journalText');
+  if (!field) return;
+
+  const value = field.value.trim();
+  if (!value) {
+   window.alert('Write a little something before saving.');
+   return;
+  }
+
+  const list = readList('mindmateJournal');
+  list.unshift({ text: value, date: new Date().toLocaleString() });
+  const saved = writeList('mindmateJournal', list.slice(0, 30));
+
+  field.value = '';
+  window.renderJournals();
+  window.alert(saved ? 'Your entry has been saved on this device.' : 'Your browser could not save this entry.');
+ };
+
+ function escapeHTML(value) {
+  return value.replace(/[&<>"']/g, (character) => ({
+   '&': '&amp;',
+   '<': '&lt;',
+   '>': '&gt;',
+   '"': '&quot;',
+   "'": '&#39;'
+  }[character]));
+ }
+
+ window.renderJournals = function () {
+  const el = document.getElementById('journalEntries');
+  if (!el) return;
+
+  const list = readList('mindmateJournal');
+
+  el.innerHTML = list.length
+   ? list.map((item, index) =>
+      '<div class="entry"><small>' +
+      escapeHTML(String(item.date || '')) +
+      '</small><p>' +
+      escapeHTML(String(item.text || '')).replace(/\n/g, '<br>') +
+      '</p><button class="secondary" onclick="deleteJournal(' +
+      index + ')">Delete</button></div>'
+     ).join('')
+   : 'Your saved entries will appear here.';
+ };
+
+ window.deleteJournal = function (index) {
+  const list = readList('mindmateJournal');
+  list.splice(index, 1);
+  writeList('mindmateJournal', list);
+  window.renderJournals();
+ };
+
+ const affirmations = [
+  'I can take things one step at a time. 🌷',
+  'My feelings matter, and I can ask for help. 💜',
+  'I do not have to be perfect to be proud of myself. 🌱',
+  'Rest is important, too. ☁️',
+  'I am learning and growing every day. 🌼',
+  'It is okay to begin again. ✨'
+ ];
+
+ window.newAffirmation = function () {
+  const el = document.getElementById('affirmationText');
+  if (!el) return;
+
+  const options = affirmations.filter((item) => item !== el.textContent);
+  el.textContent = options[Math.floor(Math.random() * options.length)] || affirmations[0];
+ };
+
+ let breathTimer = null;
+ let breathStep = 0;
+
+ function breathCycle() {
+  const circle = document.getElementById('breathCircle');
+  const text = document.getElementById('breathText');
+  if (!circle || !text) return;
+
+  if (breathStep % 2 === 0) {
+   circle.classList.add('inhale');
+   circle.textContent = 'Breathe in';
+   text.textContent = 'Gently breathe in…';
+  } else {
+   circle.classList.remove('inhale');
+   circle.textContent = 'Breathe out';
+   text.textContent = 'Slowly breathe out…';
+  }
+
+  breathStep += 1;
+ }
+
+ window.toggleBreathing = function () {
+  if (breathTimer) return;
+
+  const button = document.getElementById('breathButton');
+  if (button) button.textContent = 'Breathing…';
+
+  breathStep = 0;
+  breathCycle();
+  breathTimer = window.setInterval(breathCycle, 4000);
+ };
+
+ window.stopBreathing = function () {
+  window.clearInterval(breathTimer);
+  breathTimer = null;
+
+  const circle = document.getElementById('breathCircle');
+  const text = document.getElementById('breathText');
+  const button = document.getElementById('breathButton');
+
+  if (circle) {
+   circle.classList.remove('inhale');
+   circle.textContent = 'Ready?';
+  }
+  if (text) text.textContent = 'Take a moment. Start again whenever you like.';
+  if (button) button.textContent = 'Start breathing';
+ };
+
+ document.addEventListener('click', function (event) {
+  const tab = event.target.closest('.app-tab[data-page]');
+  if (tab) {
+   event.preventDefault();
+   window.showPage(tab.getAttribute('data-page'));
+  }
+ });
+
+ window.renderMoods();
+})();
+</script>
+</body>
+</html>
